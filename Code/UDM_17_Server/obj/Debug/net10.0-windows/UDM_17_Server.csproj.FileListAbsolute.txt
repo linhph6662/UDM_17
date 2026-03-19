@@ -1,0 +1,17 @@
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Server\obj\Debug\net10.0-windows\UDM_17_Server.Form1.resources
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Server\obj\Debug\net10.0-windows\UDM_17_Server.csproj.GenerateResource.cache
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Server\obj\Debug\net10.0-windows\UDM_17_Server.GeneratedMSBuildEditorConfig.editorconfig
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Server\obj\Debug\net10.0-windows\UDM_17_Server.AssemblyInfoInputs.cache
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Server\obj\Debug\net10.0-windows\UDM_17_Server.AssemblyInfo.cs
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Server\obj\Debug\net10.0-windows\UDM_17_Server.csproj.CoreCompileInputs.cache
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Server\obj\Debug\net10.0-windows\UDM_17_Server.sourcelink.json
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Server\bin\Debug\net10.0-windows\UDM_17_Server.exe
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Server\bin\Debug\net10.0-windows\UDM_17_Server.deps.json
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Server\bin\Debug\net10.0-windows\UDM_17_Server.runtimeconfig.json
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Server\bin\Debug\net10.0-windows\UDM_17_Server.dll
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Server\bin\Debug\net10.0-windows\UDM_17_Server.pdb
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Server\obj\Debug\net10.0-windows\UDM_17_Server.dll
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Server\obj\Debug\net10.0-windows\refint\UDM_17_Server.dll
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Server\obj\Debug\net10.0-windows\UDM_17_Server.pdb
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Server\obj\Debug\net10.0-windows\UDM_17_Server.genruntimeconfig.cache
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Server\obj\Debug\net10.0-windows\ref\UDM_17_Server.dll

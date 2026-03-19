@@ -1,0 +1,15 @@
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Client\bin\Debug\net10.0-windows\UDM_17_Client.exe
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Client\bin\Debug\net10.0-windows\UDM_17_Client.deps.json
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Client\bin\Debug\net10.0-windows\UDM_17_Client.runtimeconfig.json
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Client\bin\Debug\net10.0-windows\UDM_17_Client.dll
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Client\bin\Debug\net10.0-windows\UDM_17_Client.pdb
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Client\obj\Debug\net10.0-windows\UDM_17_Client.GeneratedMSBuildEditorConfig.editorconfig
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Client\obj\Debug\net10.0-windows\UDM_17_Client.AssemblyInfoInputs.cache
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Client\obj\Debug\net10.0-windows\UDM_17_Client.AssemblyInfo.cs
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Client\obj\Debug\net10.0-windows\UDM_17_Client.csproj.CoreCompileInputs.cache
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Client\obj\Debug\net10.0-windows\UDM_17_Client.sourcelink.json
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Client\obj\Debug\net10.0-windows\UDM_17_Client.dll
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Client\obj\Debug\net10.0-windows\refint\UDM_17_Client.dll
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Client\obj\Debug\net10.0-windows\UDM_17_Client.pdb
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Client\obj\Debug\net10.0-windows\UDM_17_Client.genruntimeconfig.cache
+D:\UTH_NamHoc\Nam2\HK2-2025-2026\LapTrinhMang\UDM_17\Code\UDM_17_Client\obj\Debug\net10.0-windows\ref\UDM_17_Client.dll
