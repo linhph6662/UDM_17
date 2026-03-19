@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UDM_17_Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e872a4749c387bb42f59a60722f2cf4ff9669f5a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+594d14ffb5d5543a5a02e2fc6c68d9b87196cebe")]
 [assembly: System.Reflection.AssemblyProductAttribute("UDM_17_Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UDM_17_Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
