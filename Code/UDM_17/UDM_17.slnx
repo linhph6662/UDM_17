@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="UDM_17.Client/UDM_17.Client.csproj" />
+  <Project Path="UDM_17.Core/UDM_17.Core.csproj" />
+  <Project Path="UDM_17.Server/UDM_17.Server.csproj" />
+</Solution>
