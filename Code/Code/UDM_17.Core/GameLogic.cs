@@ -28,18 +28,27 @@ namespace CaroGame
         }
 
         public Player CurrentPlayer => currentPlayer;
+        public Player GetCell(int row, int col)
+       {
+        return board[row, col];
+       }
 
-        public Player[,] Board => board;
+       public bool MakeMove(int row, int col)
+{
+    if (!IsValidMove(row, col))
+        return false;
 
-        public bool MakeMove(int row, int col)
-        {
-            if (!IsValidMove(row, col))
-                return false;
+    board[row, col] = currentPlayer;
+    moveCount++;
 
-            board[row, col] = currentPlayer;
-            moveCount++;
-            return true;
-        }
+    // Nếu thắng thì không đổi lượt nữa
+    if (!CheckWin(row, col))
+    {
+        SwitchTurn();
+    }
+
+    return true;
+}
 
         public bool IsValidMove(int row, int col)
         {
@@ -103,5 +112,9 @@ namespace CaroGame
             currentPlayer = Player.X;
             moveCount = 0;
         }
+        public Player GetCell(int row, int col)
+{
+    return board[row, col];
+}
     }
 }
