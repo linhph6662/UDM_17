@@ -1,5 +1,4 @@
 // Game Logic - Caro
-// Author: Khoi
 // Chức năng: xử lý bàn cờ, lượt chơi, kiểm tra thắng
 
 using System;
