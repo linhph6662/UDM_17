@@ -1,9 +1,20 @@
-namespace UDM_17.Client;
+﻿using System;
+using System.Windows.Forms;
 
-public partial class FormLobby : Form
+namespace CaroGame
 {
-    public FormLobby()
+    public partial class FormLobby : Form
     {
-        InitializeComponent();
+        public FormLobby()
+        {
+            InitializeComponent();
+        }
+
+        private void BtnPlay_Click(object sender, EventArgs e)
+        {
+            FormGame game = new FormGame();
+            game.Show();
+            this.Hide();
+        }
     }
 }
