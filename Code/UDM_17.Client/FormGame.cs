@@ -1,88 +1,68 @@
-﻿using System.Net.Sockets;
-using System.Text;
-using UDM_17.Core;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace UDM_17.Client
 {
     public partial class FormGame : Form
     {
-        TcpClient client;
-        NetworkStream ns;
-        Button[,] banCo = new Button[15, 15];
-        GameLogic logic = new GameLogic();
-        string myID = Guid.NewGuid().ToString().Substring(0, 4);
+        private const int BOARD_SIZE = 10;
+        private Button[,] board = new Button[BOARD_SIZE, BOARD_SIZE];
+        private bool isXTurn = true;
 
         public FormGame()
         {
             InitializeComponent();
-            this.Text = "UDM_17 Caro - ID: " + myID;
-
-            btnConnect.Click += (s, e) => {
-                try
-                {
-                    client = new TcpClient("127.0.0.1", 1234);
-                    ns = client.GetStream();
-                    btnConnect.Enabled = false; 
-                    btnConnect.Text = "ĐÃ KẾT NỐI";
-                    lblStatus.Text = "Đã kết nối tới Server.";
-                    Task.Run(() => Listen());
-                }
-                catch { MessageBox.Show("Không tìm thấy Server!"); }
-            };
-
-            DrawBoard();
-            Control.CheckForIllegalCrossThreadCalls = false;
+            CreateBoard();
         }
 
-        void DrawBoard()
+        private void CreateBoard()
         {
-            int cellSize = 30;
-            for (int r = 0; r < 15; r++)
+            int size = 40;
+
+            for (int i = 0; i < BOARD_SIZE; i++)
             {
-                for (int c = 0; c < 15; c++)
+                for (int j = 0; j < BOARD_SIZE; j++)
                 {
-                    Button b = new Button { Width = cellSize, Height = cellSize, Location = new Point(c * cellSize, r * cellSize), FlatStyle = FlatStyle.Flat, Tag = $"{r}|{c}" };
-                    b.Click += (s, e) => SendMove((Button)s);
-                    banCo[r, c] = b;
-                    pnlChessBoard.Controls.Add(b);
+                    Button btn = new Button();
+                    btn.Width = size;
+                    btn.Height = size;
+                    btn.Left = j * size;
+                    btn.Top = i * size;
+                    btn.Font = new Font("Arial", 14, FontStyle.Bold);
+                    btn.Tag = new Point(i, j);
+                    btn.Click += Btn_Click;
+
+                    board[i, j] = btn;
+                    this.Controls.Add(btn);
                 }
             }
         }
 
-        void SendMove(Button btn)
+        private void Btn_Click(object sender, EventArgs e)
         {
-            if (ns == null) return;
-            var p = new Packet(Command.MOVE, btn.Tag.ToString(), myID);
-            byte[] d = Encoding.UTF8.GetBytes(p.ToJson());
-            ns.Write(d, 0, d.Length);
+            Button btn = sender as Button;
+            if (btn == null) return;
+
+            if (btn.Text != "") return;
+
+            if (isXTurn)
+            {
+                btn.Text = "X";
+                btn.ForeColor = Color.Red;
+            }
+            else
+            {
+                btn.Text = "O";
+                btn.ForeColor = Color.Blue;
+            }
+
+            isXTurn = !isXTurn;
         }
 
-        void Listen()
+        private void FormGame_Load(object sender, EventArgs e)
         {
-            byte[] buf = new byte[2048];
-            while (true)
-            {
-                try
-                {
-                    int b = ns.Read(buf, 0, buf.Length);
-                    var p = Packet.FromJson(Encoding.UTF8.GetString(buf, 0, b));
-                    if (p.Cmd == Command.MOVE)
-                    {
-                        string[] pos = p.Data.Split('|');
-                        int r = int.Parse(pos[0]), c = int.Parse(pos[1]);
-                        int playerNum = (p.Sender == myID) ? 1 : 2;
 
-                        logic.Board[r, c] = playerNum;
-                        this.Invoke(new Action(() => {
-                            banCo[r, c].Text = (playerNum == 1) ? "X" : "O";
-                            banCo[r, c].ForeColor = (playerNum == 1) ? Color.Blue : Color.Red;
-                            banCo[r, c].Enabled = false;
-                            if (logic.CheckWin(r, c, playerNum)) MessageBox.Show("Người chơi " + p.Sender + " đã thắng!");
-                        }));
-                    }
-                }
-                catch { break; }
-            }
         }
     }
 }
