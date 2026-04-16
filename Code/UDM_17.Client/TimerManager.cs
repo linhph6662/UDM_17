@@ -5,8 +5,8 @@ namespace UDM_17.Client
 {
     public class TimerManager : IDisposable
     {
-        private Timer _timer;
-        public event EventHandler Tick;
+        private System.Windows.Forms.Timer? _timer;
+        public event EventHandler? Tick;
 
         public int Interval
         {
@@ -18,7 +18,7 @@ namespace UDM_17.Client
 
         public TimerManager(int interval = 1000)
         {
-            _timer = new Timer();
+            _timer = new System.Windows.Forms.Timer();
             _timer.Interval = interval;
             _timer.Tick += (s, e) => Tick?.Invoke(this, EventArgs.Empty);
         }
