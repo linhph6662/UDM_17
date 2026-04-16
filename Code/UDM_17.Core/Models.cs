@@ -20,7 +20,10 @@ namespace UDM_17.Core
         OPPONENT_LEFT,
         ERROR,
         LEAVE_ROOM,
-        GAME_END_WAIT
+        GAME_END_WAIT,
+        TURN_TIMEOUT,
+        GET_RANKING,
+        RANKING_LIST
     }
 
     public class Packet
@@ -126,5 +129,28 @@ namespace UDM_17.Core
     {
         public int RoomId { get; set; }
         public int SecondsRemaining { get; set; }
+    }
+
+    public class TurnTimeoutPayload
+    {
+        public int RoomId { get; set; }
+    }
+
+    public class RankingRequestPayload
+    {
+        public int Top { get; set; } = 200;
+    }
+
+    public class RankingItemPayload
+    {
+        public int Rank { get; set; }
+        public string Username { get; set; } = string.Empty;
+        public string DisplayName { get; set; } = string.Empty;
+        public int Score { get; set; }
+    }
+
+    public class RankingListPayload
+    {
+        public List<RankingItemPayload> Items { get; set; } = new List<RankingItemPayload>();
     }
 }

@@ -17,6 +17,7 @@ namespace UDM_17.Client
         private bool _loggedIn;
         private FormLogin? _currentLoginForm;
         private FormGame? _activeGameForm;
+        private FormRanking? _rankingForm;
 
         public FormLobby()
         {
@@ -164,11 +165,24 @@ namespace UDM_17.Client
             lblStatus.Text = "Đã đăng xuất. Vui lòng đăng nhập lại để chơi.";
         }
 
-        private void btnRanking_Click(object sender, EventArgs e)
+        private async void btnRanking_Click(object sender, EventArgs e)
         {
-            using FormRanking ranking = new FormRanking();
-            ranking.LoadRows(BuildSampleRankingRows());
-            ranking.ShowDialog(this);
+            if (!_loggedIn)
+            {
+                ShowLoginDialog();
+                return;
+            }
+
+            if (_rankingForm == null || _rankingForm.IsDisposed)
+            {
+                _rankingForm = new FormRanking();
+                _rankingForm.FormClosed += (s, args) => _rankingForm = null;
+            }
+
+            _rankingForm.ShowLoading();
+            _rankingForm.Show(this);
+            _rankingForm.BringToFront();
+            await _socket.SendAsync(Packet.Create(Command.GET_RANKING, new RankingRequestPayload { Top = 200 }, _username));
         }
 
         private void btnProfile_Click(object sender, EventArgs e)
@@ -234,6 +248,24 @@ namespace UDM_17.Client
                 case Command.OPPONENT_LEFT:
                     HandleOpponentLeft(packet);
                     break;
+
+                case Command.RANKING_LIST:
+                    HandleRankingList(packet);
+                    break;
+            }
+        }
+
+        private void HandleRankingList(Packet packet)
+        {
+            RankingListPayload? payload = packet.ReadData<RankingListPayload>();
+            var items = payload?.Items ?? new List<RankingItemPayload>();
+            var rows = items
+                .Select(i => new RankingRow(i.Rank, i.Username, i.DisplayName, i.Score))
+                .ToList();
+
+            if (_rankingForm != null && !_rankingForm.IsDisposed)
+            {
+                _rankingForm.LoadRows(rows);
             }
         }
 
@@ -363,6 +395,11 @@ namespace UDM_17.Client
             {
                 move.RoomId = game.RoomId;
                 await _socket.SendAsync(Packet.Create(Command.MOVE, move, _username));
+            };
+
+            game.TurnTimeoutRequested += async roomId =>
+            {
+                await _socket.SendAsync(Packet.Create(Command.TURN_TIMEOUT, new TurnTimeoutPayload { RoomId = roomId }, _username));
             };
 
             game.LeaveRequested += async () =>
@@ -497,18 +534,6 @@ namespace UDM_17.Client
             pnlWaiting.Visible = false;
         }
 
-        private List<RankingRow> BuildSampleRankingRows()
-        {
-            var rows = new List<RankingRow>();
-
-            if (_loggedIn)
-            {
-                rows.Add(new RankingRow(1, string.IsNullOrEmpty(_userId) ? "-" : _userId, _username, _displayName, _score));
-            }
-
-            return rows;
-        }
-
         private static Image? TryDecodeBase64Image(string base64)
         {
             if (string.IsNullOrWhiteSpace(base64))
@@ -534,7 +559,7 @@ namespace UDM_17.Client
         }
     }
 
-    public record RankingRow(int Rank, string UserId, string Username, string DisplayName, int Score);
+    public record RankingRow(int Rank, string Username, string DisplayName, int Score);
 
     internal class RoomListDisplay
     {

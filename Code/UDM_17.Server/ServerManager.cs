@@ -215,6 +215,14 @@ namespace UDM_17.Server
                     HandleLeaveRoom(session);
                     break;
 
+                case Command.TURN_TIMEOUT:
+                    HandleTurnTimeout(session, packet);
+                    break;
+
+                case Command.GET_RANKING:
+                    HandleGetRanking(session, packet);
+                    break;
+
                 case Command.ROOM_LIST:
                     SendRoomListTo(session);
                     break;
@@ -494,28 +502,7 @@ namespace UDM_17.Server
             {
                 string winner = session.Username;
                 string result = $"{winner} chien thang";
-
-                var endPayload = new GameEndPayload
-                {
-                    RoomId = room.RoomId,
-                    WinnerUsername = winner,
-                    ResultMessage = result
-                };
-
-                Send(room.PlayerX, Packet.Create(Command.GAME_END, endPayload, "server"));
-                Send(room.PlayerO, Packet.Create(Command.GAME_END, endPayload, "server"));
-
-                _db.AddScore(winner, 10);
-                _db.AddMatchHistory(room.RoomId, room.StartedAt, DateTime.Now, room.PlayerX.Username, room.PlayerO.Username, winner, result, room.MoveCount);
-                SendAuthUpdate(room.PlayerX);
-                SendAuthUpdate(room.PlayerO);
-
-                lock (_lockObj)
-                {
-                    room.IsWaitingForRematch = true;
-                    room.RematchWaitStartTime = DateTime.Now;
-                    Log("INFO", $"Tran phong {room.RoomId} ket thuc, winner={winner}. Dang cho 15s de tro choi tiep...");
-                }
+                FinishMatchWithWinner(room, winner, result);
                 return;
             }
 
@@ -539,6 +526,77 @@ namespace UDM_17.Server
                     Log("INFO", $"Tran phong {room.RoomId} ket thuc hoa. Dang cho 15s de tro choi tiep...");
                 }
             }
+        }
+
+        private void HandleTurnTimeout(ClientSession session, Packet packet)
+        {
+            TurnTimeoutPayload timeout = packet.ReadData<TurnTimeoutPayload>();
+            if (timeout == null)
+            {
+                return;
+            }
+
+            GameRoom room;
+            lock (_lockObj)
+            {
+                _rooms.TryGetValue(timeout.RoomId, out room);
+            }
+
+            if (room == null)
+            {
+                return;
+            }
+
+            if (room.IsWaitingForRematch)
+            {
+                return;
+            }
+
+            bool isPlayerX = room.PlayerX == session;
+            bool isPlayerO = room.PlayerO == session;
+            if (!isPlayerX && !isPlayerO)
+            {
+                return;
+            }
+
+            char expectedSymbol = isPlayerX ? 'X' : 'O';
+            if (room.CurrentTurn != expectedSymbol)
+            {
+                Send(session, Packet.Create(Command.ERROR, new { Message = "Khong phai luot cua ban de bao het gio." }, "server"));
+                return;
+            }
+
+            ClientSession winnerSession = room.GetOpponent(session);
+            string winner = winnerSession.Username;
+            string result = $"{session.Username} het thoi gian suy nghi. {winner} chien thang";
+            FinishMatchWithWinner(room, winner, result);
+        }
+
+        private void HandleGetRanking(ClientSession session, Packet packet)
+        {
+            RankingRequestPayload req = packet.ReadData<RankingRequestPayload>();
+            int top = req?.Top ?? 200;
+            if (top <= 0)
+            {
+                top = 200;
+            }
+
+            top = Math.Min(top, 1000);
+            var users = _db.GetUsers(top);
+            var payload = new RankingListPayload
+            {
+                Items = users
+                    .Select((u, index) => new RankingItemPayload
+                    {
+                        Rank = index + 1,
+                        Username = u.Username,
+                        DisplayName = u.DisplayName,
+                        Score = u.Score
+                    })
+                    .ToList()
+            };
+
+            Send(session, Packet.Create(Command.RANKING_LIST, payload, "server"));
         }
 
         private void HandleChat(ClientSession session, Packet packet)
@@ -754,6 +812,31 @@ namespace UDM_17.Server
             }
             catch
             {
+            }
+        }
+
+        private void FinishMatchWithWinner(GameRoom room, string winner, string result)
+        {
+            var endPayload = new GameEndPayload
+            {
+                RoomId = room.RoomId,
+                WinnerUsername = winner,
+                ResultMessage = result
+            };
+
+            Send(room.PlayerX, Packet.Create(Command.GAME_END, endPayload, "server"));
+            Send(room.PlayerO, Packet.Create(Command.GAME_END, endPayload, "server"));
+
+            _db.AddScore(winner, 10);
+            _db.AddMatchHistory(room.RoomId, room.StartedAt, DateTime.Now, room.PlayerX.Username, room.PlayerO.Username, winner, result, room.MoveCount);
+            SendAuthUpdate(room.PlayerX);
+            SendAuthUpdate(room.PlayerO);
+
+            lock (_lockObj)
+            {
+                room.IsWaitingForRematch = true;
+                room.RematchWaitStartTime = DateTime.Now;
+                Log("INFO", $"Tran phong {room.RoomId} ket thuc, winner={winner}. Dang cho 15s de tro choi tiep...");
             }
         }
 

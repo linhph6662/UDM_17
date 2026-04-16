@@ -16,17 +16,48 @@ namespace UDM_17.Client
         {
             dgvRanking.AutoGenerateColumns = false;
             dgvRanking.Columns.Clear();
-            dgvRanking.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Rank", DataPropertyName = "Rank", Width = 60 });
-            dgvRanking.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "UserId", DataPropertyName = "UserId", Width = 120 });
-            dgvRanking.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Username", DataPropertyName = "Username", Width = 100 });
-            dgvRanking.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "DisplayName", DataPropertyName = "DisplayName", Width = 120 });
-            dgvRanking.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Score", DataPropertyName = "Score", Width = 80 });
+            dgvRanking.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Rank",
+                DataPropertyName = "Rank",
+                Width = 60,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+            });
+            dgvRanking.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Username",
+                DataPropertyName = "Username",
+                FillWeight = 42,
+                MinimumWidth = 180,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            });
+            dgvRanking.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "DisplayName",
+                DataPropertyName = "DisplayName",
+                FillWeight = 42,
+                MinimumWidth = 180,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            });
+            dgvRanking.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Score",
+                DataPropertyName = "Score",
+                Width = 90,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+            });
         }
 
         public void LoadRows(List<RankingRow> rows)
         {
             dgvRanking.DataSource = rows;
             lblFooter.Text = $"Top {rows.Count} người chơi";
+        }
+
+        public void ShowLoading()
+        {
+            dgvRanking.DataSource = new List<RankingRow>();
+            lblFooter.Text = "Dang tai bang xep hang...";
         }
     }
 }

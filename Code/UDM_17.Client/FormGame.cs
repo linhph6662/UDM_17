@@ -19,6 +19,7 @@ namespace UDM_17.Client
         public event Action<string>? ChatSent;
         public event Action<MovePayload>? MoveSent;
         public event Action? LeaveRequested;
+        public event Action<int>? TurnTimeoutRequested;
 
         public FormGame()
         {
@@ -390,9 +391,10 @@ namespace UDM_17.Client
             if (_thinkingTimeRemaining <= 0)
             {
                 StopThinkingTimer();
-                AddChatMessage("Hệ thống", "Hết thời gian suy nghĩ. Trận đấu kết thúc.", true);
-                // Optionally disable board or end game
-                EndGame("Hết thời gian suy nghĩ. Trận đấu kết thúc.");
+                _myTurn = false;
+                EndGame("Hết thời gian suy nghĩ. Đang gửi kết quả lên server...");
+                AddChatMessage("Hệ thống", "Hết thời gian suy nghĩ. Đang chờ server xác định thắng thua...", true);
+                TurnTimeoutRequested?.Invoke(_roomId);
             }
         }
 
