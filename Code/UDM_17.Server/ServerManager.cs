@@ -9,6 +9,7 @@ namespace UDM_17.Server
     public class ServerManager
     {
         private readonly DatabaseManager _db;
+        private const int DefaultPort = 1234;
         private TcpListener _listener;
         private readonly List<ClientSession> _sessions = new List<ClientSession>();
         private readonly Queue<ClientSession> _quickMatchQueue = new Queue<ClientSession>();
@@ -52,9 +53,10 @@ namespace UDM_17.Server
 
         public void Start()
         {
-            _listener = new TcpListener(IPAddress.Any, 1234);
+            int port = DefaultPort;
+            _listener = new TcpListener(IPAddress.Any, port);
             _listener.Start();
-            Log("INFO", "Server da bat dau tai cong 1234");
+            Log("INFO", $"Server da bat dau tai cong {port}");
 
             Task.Run(() =>
             {
